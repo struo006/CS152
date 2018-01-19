@@ -1,9 +1,13 @@
 %{
 #include<unistd.h>
 %}
+COMMENT [##].*
 DIGIT [0-9]
-IDENTIFIER [a-zA-Z]^[a-zA-Z0-9_]*[^_]
+WRONG [0-9][a-zA-Z0-9_]+
+WRONG2 [a-zA-Z0-9]*[_]
+IDENTIFIER [a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]*
 %%
+{COMMENT}	;
 function	printf("FUNCTION \n");
 beginparams	printf("BEGIN_PARAMS \n");
 endparams	printf("END_PARAMS \n");
@@ -45,8 +49,11 @@ return		printf("RETURN \n");
 "<="		printf("LTE \n");
 ">="		printf("GTE \n");
 
-{DIGIT}+	printf("NUMBER %s\n", yytext);
+{DIGIT}+ 	printf("NUMBER %s\n", yytext);
+{WRONG}		printf("invalid identifier \n");
+{WRONG2}	printf("invalid identifier \n");
 {IDENTIFIER}	printf("IDENT %s\n", yytext);
+
 
 ";"		printf("SEMICOLON \n");
 ":"		printf("COLON \n");
