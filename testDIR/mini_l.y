@@ -103,7 +103,13 @@ orHelper:	OR relation_and_expr orHelper {cout << "orHelper -> OR relation_and_ex
 		| {cout << "orHelper -> epsilon" << endl;}
 		;
 
-relation_and_expr:	relationExprHelper {cout << "relation_and_expr -> relationExprHelper" << endl;}
+relation_and_expr: relationexpr andHelper {cout << "relation_and_expr -> relationexpr andHelper" << endl;};
+
+andHelper: 	AND relationexpr andHelper {cout << "andHelper -> AND relationexpr andHelper" << endl;}
+		| {cout << "andHelper -> epsilon" << endl;};
+
+
+relationexpr:	relationExprHelper {cout << "relation_and_expr -> relationExprHelper" << endl;}
 			| NOT relationExprHelper {cout << "relation_and_expr -> NOT relationExprHelper" << endl;}
 			;
 
