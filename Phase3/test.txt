@@ -1,0 +1,540 @@
+function -> epsilon
+dec -> epsilon
+dec1 ->IDENTIFIER
+dec2 -> INTEGER
+dec1 COLON dec2
+dec1 ->IDENTIFIER
+dec1 -> IDENTIFIER COMMA dec1
+dec1 -> IDENTIFIER COMMA dec1
+dec2 -> INTEGER
+dec1 COLON dec2
+dec1 ->IDENTIFIER
+dec2 -> ARRAY LSQUARE NUMBER RSQUARE OF INTEGER
+dec1 COLON dec2
+dec -> epsilon
+dec -> declaration SEMICOLON dec
+dec -> declaration SEMICOLON dec
+dec -> declaration SEMICOLON dec
+var -> IDENTIFIER i
+var -> IDENTIFIER j
+state6help -> epsilon
+state6help -> COMMA var state6help
+statement6 -> READ var state6help
+statement -> statement6
+var -> IDENTIFIER k
+varTerm -> NUMBER 0
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER n
+varTerm -> NUMBER 20
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER k
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+ADD multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+varTerm -> NUMBER 2
+term -> varTerm
+termHelper -> epsilon
+termHelper -> MOD term termHelper
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> EQ
+varTerm -> NUMBER 0
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+statement8 -> CONTINUE
+statement -> statement8
+state2help1 -> statement SEMICOLON
+state2help2 -> epsilon
+statement2 -> IF bool_exp state2help1 state2help2 ENDIF
+statement -> statement2
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+SUB multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+state6help -> epsilon
+statement7 -> WRITE var state6help
+statement -> statement7
+state2help1 -> statement SEMICOLON
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> LT
+var -> IDENTIFIER n
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+statement4 -> DO BEGINLOOP state2help1 ENDLOOP WHILE bool_exp
+statement -> statement4
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> LT
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> LT
+var -> IDENTIFIER n
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> GTE
+varTerm -> NUMBER 0
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+andHelper -> AND relationexpr andHelper
+andHelper -> AND relationexpr andHelper
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+varTerm -> NUMBER 2
+term -> varTerm
+termHelper -> epsilon
+termHelper -> MULT term termHelper
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+varTerm -> NUMBER 2
+term -> varTerm
+termHelper -> epsilon
+termHelper -> MULT term termHelper
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER k
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+state2help1 -> statement SEMICOLON
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> GTE
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+relationExprHelper -> FALSE
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+orHelper -> OR relation_and_exper orHelper
+bool_exp -> relation_and_expr orHelper
+var -> IDENTIFIER k
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+SUB multiplicative_expr multExprHelper
+ADD multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+varTerm -> LPAREN expression RPAREN
+term -> varTerm
+varTerm -> NUMBER 3
+term -> varTerm
+termHelper -> epsilon
+termHelper -> MOD term termHelper
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER i
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+SUB multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> GT
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+statement8 -> CONTINUE
+statement -> statement8
+state2help1 -> statement SEMICOLON
+state2help2 -> epsilon
+statement2 -> IF bool_exp state2help1 state2help2 ENDIF
+statement -> statement2
+var -> IDENTIFIER k
+state6help -> epsilon
+statement7 -> WRITE var state6help
+statement -> statement7
+state2help1 -> statement SEMICOLON
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+statement3 -> WHILE bool_exp BEGINLOOP state2help1 ENDLOOOP
+statement -> statement3
+state2help1 -> statement SEMICOLON
+state2help2 -> ELSE state2help1
+statement2 -> IF bool_exp state2help1 state2help2 ENDIF
+statement -> statement2
+var -> IDENTIFIER i
+var -> IDENTIFIER j
+var -> IDENTIFIER k
+state6help -> epsilon
+state6help -> COMMA var state6help
+state6help -> COMMA var state6help
+statement7 -> WRITE var state6help
+statement -> statement7
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> LT
+var -> IDENTIFIER n
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> GTE
+varTerm -> NUMBER 0
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+andHelper -> AND relationexpr andHelper
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+var -> IDENTIFIER i
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+state6help -> epsilon
+statement7 -> WRITE var state6help
+statement -> statement7
+state2help1 -> statement SEMICOLON
+state2help2 -> epsilon
+statement2 -> IF bool_exp state2help1 state2help2 ENDIF
+statement -> statement2
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> LT
+var -> IDENTIFIER n
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> GTE
+varTerm -> NUMBER 0
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+andHelper -> AND relationexpr andHelper
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+var -> IDENTIFIER j
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+var -> IDENTIFIER t LSQUARE expression RSQUARE
+state6help -> epsilon
+statement7 -> WRITE var state6help
+statement -> statement7
+state2help1 -> statement SEMICOLON
+state2help2 -> epsilon
+statement2 -> IF bool_exp state2help1 state2help2 ENDIF
+statement -> statement2
+state2help1 -> statement SEMICOLON
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+FUNCTION IDENT main SEMICOLON BEGIN_PARAMS dec END_PARAMS BEGIN_LOCALS dec END_LOCALS BEGIN_BODY state2help1 END_BODY
+functions -> function functions
+program -> functions

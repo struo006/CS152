@@ -1,0 +1,129 @@
+function -> epsilon
+.k
+dec2 -> INTEGER
+dec1 COLON dec2
+dec -> epsilon
+dec -> declaration SEMICOLON dec
+dec -> epsilon
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+comp -> LTE
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+relationExprHelper -> expression comp expression
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+relationExprHelper -> LPAREN bool_exp RPAREN
+relation_and_expr -> relationExprHelper
+andHelper -> epsilon
+relation_and_expr -> relationexpr andHelper
+orHelper -> epsilon
+bool_exp -> relation_and_expr orHelper
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement9 -> RETURN expression
+statement -> statement9
+state2help1 -> statement SEMICOLON
+state2help2 -> epsilon
+statement2 -> IF bool_exp state2help1 state2help2 ENDIF
+statement -> statement2
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+varTerm -> NUMBER 1
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+SUB multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+identifierHelp -> expression
+IDENTIFIER fibonacci LPAREN identifierHelp RPAREN
+term -> idtentifierTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+var -> IDENTIFIER k
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+varTerm -> NUMBER 2
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+SUB multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+identifierHelp -> expression
+IDENTIFIER fibonacci LPAREN identifierHelp RPAREN
+term -> idtentifierTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+ADD multiplicative_expr multExprHelper
+expression -> multiplicative_expr multExprHelper
+statement9 -> RETURN expression
+statement -> statement9
+state2help1 -> statement SEMICOLON
+state2help1 -> statement SEMICOLON state2help1
+FUNCTION IDENT fibonacci SEMICOLON BEGIN_PARAMS dec END_PARAMS BEGIN_LOCALS dec END_LOCALS BEGIN_BODY state2help1 END_BODY
+functions -> function functions
+dec -> epsilon
+.n
+dec2 -> INTEGER
+dec1 COLON dec2
+.fib_n
+dec2 -> INTEGER
+dec1 COLON dec2
+dec -> epsilon
+dec -> declaration SEMICOLON dec
+dec -> declaration SEMICOLON dec
+var -> IDENTIFIER n
+state6help -> epsilon
+statement6 -> READ var state6help
+statement -> statement6
+var -> IDENTIFIER fib_n
+var -> IDENTIFIER n
+varTerm -> var
+term -> varTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+identifierHelp -> expression
+IDENTIFIER fibonacci LPAREN identifierHelp RPAREN
+term -> idtentifierTerm
+termHelper -> epsilon
+multiplicative_expr -> term termHelper
+multExprHelper -> epsilon
+expression -> multiplicative_expr multExprHelper
+statement1 -> var ASSIGN expression
+statement -> statement1
+var -> IDENTIFIER fib_n
+state6help -> epsilon
+statement7 -> WRITE var state6help
+statement -> statement7
+state2help1 -> statement SEMICOLON
+state2help1 -> statement SEMICOLON state2help1
+state2help1 -> statement SEMICOLON state2help1
+FUNCTION IDENT main SEMICOLON BEGIN_PARAMS dec END_PARAMS BEGIN_LOCALS dec END_LOCALS BEGIN_BODY state2help1 END_BODY
+functions -> function functions
+program -> functions

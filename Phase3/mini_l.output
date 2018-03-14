@@ -1,0 +1,1838 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: functions
+
+    2 functions: functions function
+    3          | %empty
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    5 dec: declaration SEMICOLON dec
+    6    | %empty
+
+    7 declaration: dec1 COLON dec2
+
+    8 dec1: IDENTIFIER COMMA dec1
+    9     | IDENTIFIER
+
+   10 dec2: ARRAY LSQUARE NUMBER RSQUARE OF INTEGER
+   11     | INTEGER
+
+   12 statement: statement1
+   13          | statement2
+   14          | statement3
+   15          | statement4
+   16          | statement5
+   17          | statement6
+   18          | statement7
+   19          | statement8
+   20          | statement9
+
+   21 statement1: var ASSIGN expression
+
+   22 statement2: IF bool_exp THEN state2help1 state2help2 ENDIF
+
+   23 state2help1: statement SEMICOLON state2help1
+   24            | statement SEMICOLON
+
+   25 state2help2: ELSE state2help1
+   26            | %empty
+
+   27 statement3: WHILE bool_exp BEGINLOOP state2help1 ENDLOOP
+
+   28 statement4: DO BEGINLOOP state2help1 ENDLOOP WHILE bool_exp
+
+   29 statement5: FOREACH IDENTIFIER IN IDENTIFIER BEGINLOOP state2help1 ENDLOOP
+
+   30 statement6: READ var state6help
+
+   31 state6help: COMMA var state6help
+   32           | %empty
+
+   33 statement7: WRITE var state6help
+
+   34 statement8: CONTINUE
+
+   35 statement9: RETURN expression
+
+   36 bool_exp: relation_and_expr orHelper
+
+   37 orHelper: OR relation_and_expr orHelper
+   38         | %empty
+
+   39 relation_and_expr: relationexpr andHelper
+
+   40 andHelper: AND relationexpr andHelper
+   41          | %empty
+
+   42 relationexpr: relationExprHelper
+   43             | NOT relationExprHelper
+
+   44 relationExprHelper: expression comp expression
+   45                   | TRUE
+   46                   | FALSE
+   47                   | LPAREN bool_exp RPAREN
+
+   48 comp: EQ
+   49     | NEQ
+   50     | LT
+   51     | GT
+   52     | LTE
+   53     | GTE
+
+   54 expression: multiplicative_expr multExprHelper
+
+   55 multExprHelper: ADD multiplicative_expr multExprHelper
+   56               | SUB multiplicative_expr multExprHelper
+   57               | %empty
+
+   58 multiplicative_expr: term termHelper
+
+   59 termHelper: MULT term termHelper
+   60           | DIV term termHelper
+   61           | MOD term termHelper
+   62           | %empty
+
+   63 term: identifierTerm
+   64     | varTerm
+   65     | SUB varTerm
+
+   66 identifierTerm: IDENTIFIER LPAREN identifierHelp RPAREN
+
+   67 identifierHelp: expression COMMA identifierHelp
+   68               | expression
+
+   69 varTerm: var
+   70        | NUMBER
+   71        | LPAREN expression RPAREN
+
+   72 var: IDENTIFIER
+   73    | IDENTIFIER LSQUARE expression RSQUARE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+FUNCTION (258) 4
+BEGINPARAMS (259) 4
+ENDPARAMS (260) 4
+BEGINLOCALS (261) 4
+ENDLOCALS (262) 4
+BEGINBODY (263) 4
+ENDBODY (264) 4
+INTEGER (265) 10 11
+ARRAY (266) 10
+OF (267) 10
+IF (268) 22
+THEN (269) 22
+ENDIF (270) 22
+ELSE (271) 25
+WHILE (272) 27 28
+DO (273) 28
+FOREACH (274) 29
+IN (275) 29
+BEGINLOOP (276) 27 28 29
+ENDLOOP (277) 27 28 29
+CONTINUE (278) 34
+READ (279) 30
+WRITE (280) 33
+TRUE (281) 45
+FALSE (282) 46
+SEMICOLON (283) 4 5 23 24
+COLON (284) 7
+COMMA (285) 8 31 67
+LPAREN (286) 47 66 71
+RPAREN (287) 47 66 71
+LSQUARE (288) 10 73
+RSQUARE (289) 10 73
+ASSIGN (290) 21
+RETURN (291) 35
+NUMBER (292) 10 70
+IDENTIFIER (293) 4 8 9 29 66 72 73
+MULT (294) 59
+DIV (295) 60
+MOD (296) 61
+ADD (297) 55
+SUB (298) 56 65
+LT (299) 50
+LTE (300) 52
+GT (301) 51
+GTE (302) 53
+EQ (303) 48
+NEQ (304) 49
+NOT (305) 43
+AND (306) 40
+OR (307) 37
+
+
+Nonterminals, with rules where they appear
+
+$accept (53)
+    on left: 0
+program (54)
+    on left: 1, on right: 0
+functions (55)
+    on left: 2 3, on right: 1 2
+function (56)
+    on left: 4, on right: 2
+dec (57)
+    on left: 5 6, on right: 4 5
+declaration (58)
+    on left: 7, on right: 5
+dec1 (59)
+    on left: 8 9, on right: 7 8
+dec2 (60)
+    on left: 10 11, on right: 7
+statement (61)
+    on left: 12 13 14 15 16 17 18 19 20, on right: 23 24
+statement1 (62)
+    on left: 21, on right: 12
+statement2 (63)
+    on left: 22, on right: 13
+state2help1 (64)
+    on left: 23 24, on right: 4 22 23 25 27 28 29
+state2help2 (65)
+    on left: 25 26, on right: 22
+statement3 (66)
+    on left: 27, on right: 14
+statement4 (67)
+    on left: 28, on right: 15
+statement5 (68)
+    on left: 29, on right: 16
+statement6 (69)
+    on left: 30, on right: 17
+state6help (70)
+    on left: 31 32, on right: 30 31 33
+statement7 (71)
+    on left: 33, on right: 18
+statement8 (72)
+    on left: 34, on right: 19
+statement9 (73)
+    on left: 35, on right: 20
+bool_exp (74)
+    on left: 36, on right: 22 27 28 47
+orHelper (75)
+    on left: 37 38, on right: 36 37
+relation_and_expr (76)
+    on left: 39, on right: 36 37
+andHelper (77)
+    on left: 40 41, on right: 39 40
+relationexpr (78)
+    on left: 42 43, on right: 39 40
+relationExprHelper (79)
+    on left: 44 45 46 47, on right: 42 43
+comp (80)
+    on left: 48 49 50 51 52 53, on right: 44
+expression (81)
+    on left: 54, on right: 21 35 44 67 68 71 73
+multExprHelper (82)
+    on left: 55 56 57, on right: 54 55 56
+multiplicative_expr (83)
+    on left: 58, on right: 54 55 56
+termHelper (84)
+    on left: 59 60 61 62, on right: 58 59 60 61
+term (85)
+    on left: 63 64 65, on right: 58 59 60 61
+identifierTerm (86)
+    on left: 66, on right: 63
+identifierHelp (87)
+    on left: 67 68, on right: 66 67
+varTerm (88)
+    on left: 69 70 71, on right: 64 65
+var (89)
+    on left: 72 73, on right: 21 30 31 33 69
+
+
+State 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 3 (functions)
+
+    program    go to state 1
+    functions  go to state 2
+
+
+State 1
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 3
+
+
+State 2
+
+    1 program: functions .
+    2 functions: functions . function
+
+    FUNCTION  shift, and go to state 4
+
+    $default  reduce using rule 1 (program)
+
+    function  go to state 5
+
+
+State 3
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 4
+
+    4 function: FUNCTION . IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    IDENTIFIER  shift, and go to state 6
+
+
+State 5
+
+    2 functions: functions function .
+
+    $default  reduce using rule 2 (functions)
+
+
+State 6
+
+    4 function: FUNCTION IDENTIFIER . SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    SEMICOLON  shift, and go to state 7
+
+
+State 7
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON . BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    BEGINPARAMS  shift, and go to state 8
+
+
+State 8
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS . dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    IDENTIFIER  shift, and go to state 9
+
+    $default  reduce using rule 6 (dec)
+
+    dec          go to state 10
+    declaration  go to state 11
+    dec1         go to state 12
+
+
+State 9
+
+    8 dec1: IDENTIFIER . COMMA dec1
+    9     | IDENTIFIER .
+
+    COMMA  shift, and go to state 13
+
+    $default  reduce using rule 9 (dec1)
+
+
+State 10
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec . ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    ENDPARAMS  shift, and go to state 14
+
+
+State 11
+
+    5 dec: declaration . SEMICOLON dec
+
+    SEMICOLON  shift, and go to state 15
+
+
+State 12
+
+    7 declaration: dec1 . COLON dec2
+
+    COLON  shift, and go to state 16
+
+
+State 13
+
+    8 dec1: IDENTIFIER COMMA . dec1
+
+    IDENTIFIER  shift, and go to state 9
+
+    dec1  go to state 17
+
+
+State 14
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS . BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    BEGINLOCALS  shift, and go to state 18
+
+
+State 15
+
+    5 dec: declaration SEMICOLON . dec
+
+    IDENTIFIER  shift, and go to state 9
+
+    $default  reduce using rule 6 (dec)
+
+    dec          go to state 19
+    declaration  go to state 11
+    dec1         go to state 12
+
+
+State 16
+
+    7 declaration: dec1 COLON . dec2
+
+    INTEGER  shift, and go to state 20
+    ARRAY    shift, and go to state 21
+
+    dec2  go to state 22
+
+
+State 17
+
+    8 dec1: IDENTIFIER COMMA dec1 .
+
+    $default  reduce using rule 8 (dec1)
+
+
+State 18
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS . dec ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    IDENTIFIER  shift, and go to state 9
+
+    $default  reduce using rule 6 (dec)
+
+    dec          go to state 23
+    declaration  go to state 11
+    dec1         go to state 12
+
+
+State 19
+
+    5 dec: declaration SEMICOLON dec .
+
+    $default  reduce using rule 5 (dec)
+
+
+State 20
+
+   11 dec2: INTEGER .
+
+    $default  reduce using rule 11 (dec2)
+
+
+State 21
+
+   10 dec2: ARRAY . LSQUARE NUMBER RSQUARE OF INTEGER
+
+    LSQUARE  shift, and go to state 24
+
+
+State 22
+
+    7 declaration: dec1 COLON dec2 .
+
+    $default  reduce using rule 7 (declaration)
+
+
+State 23
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec . ENDLOCALS BEGINBODY state2help1 ENDBODY
+
+    ENDLOCALS  shift, and go to state 25
+
+
+State 24
+
+   10 dec2: ARRAY LSQUARE . NUMBER RSQUARE OF INTEGER
+
+    NUMBER  shift, and go to state 26
+
+
+State 25
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS . BEGINBODY state2help1 ENDBODY
+
+    BEGINBODY  shift, and go to state 27
+
+
+State 26
+
+   10 dec2: ARRAY LSQUARE NUMBER . RSQUARE OF INTEGER
+
+    RSQUARE  shift, and go to state 28
+
+
+State 27
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY . state2help1 ENDBODY
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 41
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 28
+
+   10 dec2: ARRAY LSQUARE NUMBER RSQUARE . OF INTEGER
+
+    OF  shift, and go to state 50
+
+
+State 29
+
+   22 statement2: IF . bool_exp THEN state2help1 state2help2 ENDIF
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+    NOT         shift, and go to state 57
+
+    bool_exp             go to state 58
+    relation_and_expr    go to state 59
+    relationexpr         go to state 60
+    relationExprHelper   go to state 61
+    expression           go to state 62
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 30
+
+   27 statement3: WHILE . bool_exp BEGINLOOP state2help1 ENDLOOP
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+    NOT         shift, and go to state 57
+
+    bool_exp             go to state 68
+    relation_and_expr    go to state 59
+    relationexpr         go to state 60
+    relationExprHelper   go to state 61
+    expression           go to state 62
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 31
+
+   28 statement4: DO . BEGINLOOP state2help1 ENDLOOP WHILE bool_exp
+
+    BEGINLOOP  shift, and go to state 69
+
+
+State 32
+
+   29 statement5: FOREACH . IDENTIFIER IN IDENTIFIER BEGINLOOP state2help1 ENDLOOP
+
+    IDENTIFIER  shift, and go to state 70
+
+
+State 33
+
+   34 statement8: CONTINUE .
+
+    $default  reduce using rule 34 (statement8)
+
+
+State 34
+
+   30 statement6: READ . var state6help
+
+    IDENTIFIER  shift, and go to state 37
+
+    var  go to state 71
+
+
+State 35
+
+   33 statement7: WRITE . var state6help
+
+    IDENTIFIER  shift, and go to state 37
+
+    var  go to state 72
+
+
+State 36
+
+   35 statement9: RETURN . expression
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 74
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 37
+
+   72 var: IDENTIFIER .
+   73    | IDENTIFIER . LSQUARE expression RSQUARE
+
+    LSQUARE  shift, and go to state 75
+
+    $default  reduce using rule 72 (var)
+
+
+State 38
+
+   23 state2help1: statement . SEMICOLON state2help1
+   24            | statement . SEMICOLON
+
+    SEMICOLON  shift, and go to state 76
+
+
+State 39
+
+   12 statement: statement1 .
+
+    $default  reduce using rule 12 (statement)
+
+
+State 40
+
+   13 statement: statement2 .
+
+    $default  reduce using rule 13 (statement)
+
+
+State 41
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 . ENDBODY
+
+    ENDBODY  shift, and go to state 77
+
+
+State 42
+
+   14 statement: statement3 .
+
+    $default  reduce using rule 14 (statement)
+
+
+State 43
+
+   15 statement: statement4 .
+
+    $default  reduce using rule 15 (statement)
+
+
+State 44
+
+   16 statement: statement5 .
+
+    $default  reduce using rule 16 (statement)
+
+
+State 45
+
+   17 statement: statement6 .
+
+    $default  reduce using rule 17 (statement)
+
+
+State 46
+
+   18 statement: statement7 .
+
+    $default  reduce using rule 18 (statement)
+
+
+State 47
+
+   19 statement: statement8 .
+
+    $default  reduce using rule 19 (statement)
+
+
+State 48
+
+   20 statement: statement9 .
+
+    $default  reduce using rule 20 (statement)
+
+
+State 49
+
+   21 statement1: var . ASSIGN expression
+
+    ASSIGN  shift, and go to state 78
+
+
+State 50
+
+   10 dec2: ARRAY LSQUARE NUMBER RSQUARE OF . INTEGER
+
+    INTEGER  shift, and go to state 79
+
+
+State 51
+
+   45 relationExprHelper: TRUE .
+
+    $default  reduce using rule 45 (relationExprHelper)
+
+
+State 52
+
+   46 relationExprHelper: FALSE .
+
+    $default  reduce using rule 46 (relationExprHelper)
+
+
+State 53
+
+   47 relationExprHelper: LPAREN . bool_exp RPAREN
+   71 varTerm: LPAREN . expression RPAREN
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+    NOT         shift, and go to state 57
+
+    bool_exp             go to state 80
+    relation_and_expr    go to state 59
+    relationexpr         go to state 60
+    relationExprHelper   go to state 61
+    expression           go to state 81
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 54
+
+   70 varTerm: NUMBER .
+
+    $default  reduce using rule 70 (varTerm)
+
+
+State 55
+
+   66 identifierTerm: IDENTIFIER . LPAREN identifierHelp RPAREN
+   72 var: IDENTIFIER .
+   73    | IDENTIFIER . LSQUARE expression RSQUARE
+
+    LPAREN   shift, and go to state 82
+    LSQUARE  shift, and go to state 75
+
+    $default  reduce using rule 72 (var)
+
+
+State 56
+
+   65 term: SUB . varTerm
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 37
+
+    varTerm  go to state 83
+    var      go to state 67
+
+
+State 57
+
+   43 relationexpr: NOT . relationExprHelper
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    relationExprHelper   go to state 84
+    expression           go to state 62
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 58
+
+   22 statement2: IF bool_exp . THEN state2help1 state2help2 ENDIF
+
+    THEN  shift, and go to state 85
+
+
+State 59
+
+   36 bool_exp: relation_and_expr . orHelper
+
+    OR  shift, and go to state 86
+
+    $default  reduce using rule 38 (orHelper)
+
+    orHelper  go to state 87
+
+
+State 60
+
+   39 relation_and_expr: relationexpr . andHelper
+
+    AND  shift, and go to state 88
+
+    $default  reduce using rule 41 (andHelper)
+
+    andHelper  go to state 89
+
+
+State 61
+
+   42 relationexpr: relationExprHelper .
+
+    $default  reduce using rule 42 (relationexpr)
+
+
+State 62
+
+   44 relationExprHelper: expression . comp expression
+
+    LT   shift, and go to state 90
+    LTE  shift, and go to state 91
+    GT   shift, and go to state 92
+    GTE  shift, and go to state 93
+    EQ   shift, and go to state 94
+    NEQ  shift, and go to state 95
+
+    comp  go to state 96
+
+
+State 63
+
+   54 expression: multiplicative_expr . multExprHelper
+
+    ADD  shift, and go to state 97
+    SUB  shift, and go to state 98
+
+    $default  reduce using rule 57 (multExprHelper)
+
+    multExprHelper  go to state 99
+
+
+State 64
+
+   58 multiplicative_expr: term . termHelper
+
+    MULT  shift, and go to state 100
+    DIV   shift, and go to state 101
+    MOD   shift, and go to state 102
+
+    $default  reduce using rule 62 (termHelper)
+
+    termHelper  go to state 103
+
+
+State 65
+
+   63 term: identifierTerm .
+
+    $default  reduce using rule 63 (term)
+
+
+State 66
+
+   64 term: varTerm .
+
+    $default  reduce using rule 64 (term)
+
+
+State 67
+
+   69 varTerm: var .
+
+    $default  reduce using rule 69 (varTerm)
+
+
+State 68
+
+   27 statement3: WHILE bool_exp . BEGINLOOP state2help1 ENDLOOP
+
+    BEGINLOOP  shift, and go to state 104
+
+
+State 69
+
+   28 statement4: DO BEGINLOOP . state2help1 ENDLOOP WHILE bool_exp
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 105
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 70
+
+   29 statement5: FOREACH IDENTIFIER . IN IDENTIFIER BEGINLOOP state2help1 ENDLOOP
+
+    IN  shift, and go to state 106
+
+
+State 71
+
+   30 statement6: READ var . state6help
+
+    COMMA  shift, and go to state 107
+
+    $default  reduce using rule 32 (state6help)
+
+    state6help  go to state 108
+
+
+State 72
+
+   33 statement7: WRITE var . state6help
+
+    COMMA  shift, and go to state 107
+
+    $default  reduce using rule 32 (state6help)
+
+    state6help  go to state 109
+
+
+State 73
+
+   71 varTerm: LPAREN . expression RPAREN
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 110
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 74
+
+   35 statement9: RETURN expression .
+
+    $default  reduce using rule 35 (statement9)
+
+
+State 75
+
+   73 var: IDENTIFIER LSQUARE . expression RSQUARE
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 111
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 76
+
+   23 state2help1: statement SEMICOLON . state2help1
+   24            | statement SEMICOLON .
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    $default  reduce using rule 24 (state2help1)
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 112
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 77
+
+    4 function: FUNCTION IDENTIFIER SEMICOLON BEGINPARAMS dec ENDPARAMS BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY .
+
+    $default  reduce using rule 4 (function)
+
+
+State 78
+
+   21 statement1: var ASSIGN . expression
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 113
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 79
+
+   10 dec2: ARRAY LSQUARE NUMBER RSQUARE OF INTEGER .
+
+    $default  reduce using rule 10 (dec2)
+
+
+State 80
+
+   47 relationExprHelper: LPAREN bool_exp . RPAREN
+
+    RPAREN  shift, and go to state 114
+
+
+State 81
+
+   44 relationExprHelper: expression . comp expression
+   71 varTerm: LPAREN expression . RPAREN
+
+    RPAREN  shift, and go to state 115
+    LT      shift, and go to state 90
+    LTE     shift, and go to state 91
+    GT      shift, and go to state 92
+    GTE     shift, and go to state 93
+    EQ      shift, and go to state 94
+    NEQ     shift, and go to state 95
+
+    comp  go to state 96
+
+
+State 82
+
+   66 identifierTerm: IDENTIFIER LPAREN . identifierHelp RPAREN
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 116
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    identifierHelp       go to state 117
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 83
+
+   65 term: SUB varTerm .
+
+    $default  reduce using rule 65 (term)
+
+
+State 84
+
+   43 relationexpr: NOT relationExprHelper .
+
+    $default  reduce using rule 43 (relationexpr)
+
+
+State 85
+
+   22 statement2: IF bool_exp THEN . state2help1 state2help2 ENDIF
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 118
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 86
+
+   37 orHelper: OR . relation_and_expr orHelper
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+    NOT         shift, and go to state 57
+
+    relation_and_expr    go to state 119
+    relationexpr         go to state 60
+    relationExprHelper   go to state 61
+    expression           go to state 62
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 87
+
+   36 bool_exp: relation_and_expr orHelper .
+
+    $default  reduce using rule 36 (bool_exp)
+
+
+State 88
+
+   40 andHelper: AND . relationexpr andHelper
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+    NOT         shift, and go to state 57
+
+    relationexpr         go to state 120
+    relationExprHelper   go to state 61
+    expression           go to state 62
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 89
+
+   39 relation_and_expr: relationexpr andHelper .
+
+    $default  reduce using rule 39 (relation_and_expr)
+
+
+State 90
+
+   50 comp: LT .
+
+    $default  reduce using rule 50 (comp)
+
+
+State 91
+
+   52 comp: LTE .
+
+    $default  reduce using rule 52 (comp)
+
+
+State 92
+
+   51 comp: GT .
+
+    $default  reduce using rule 51 (comp)
+
+
+State 93
+
+   53 comp: GTE .
+
+    $default  reduce using rule 53 (comp)
+
+
+State 94
+
+   48 comp: EQ .
+
+    $default  reduce using rule 48 (comp)
+
+
+State 95
+
+   49 comp: NEQ .
+
+    $default  reduce using rule 49 (comp)
+
+
+State 96
+
+   44 relationExprHelper: expression comp . expression
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 121
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 97
+
+   55 multExprHelper: ADD . multiplicative_expr multExprHelper
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    multiplicative_expr  go to state 122
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 98
+
+   56 multExprHelper: SUB . multiplicative_expr multExprHelper
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    multiplicative_expr  go to state 123
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 99
+
+   54 expression: multiplicative_expr multExprHelper .
+
+    $default  reduce using rule 54 (expression)
+
+
+State 100
+
+   59 termHelper: MULT . term termHelper
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    term            go to state 124
+    identifierTerm  go to state 65
+    varTerm         go to state 66
+    var             go to state 67
+
+
+State 101
+
+   60 termHelper: DIV . term termHelper
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    term            go to state 125
+    identifierTerm  go to state 65
+    varTerm         go to state 66
+    var             go to state 67
+
+
+State 102
+
+   61 termHelper: MOD . term termHelper
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    term            go to state 126
+    identifierTerm  go to state 65
+    varTerm         go to state 66
+    var             go to state 67
+
+
+State 103
+
+   58 multiplicative_expr: term termHelper .
+
+    $default  reduce using rule 58 (multiplicative_expr)
+
+
+State 104
+
+   27 statement3: WHILE bool_exp BEGINLOOP . state2help1 ENDLOOP
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 127
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 105
+
+   28 statement4: DO BEGINLOOP state2help1 . ENDLOOP WHILE bool_exp
+
+    ENDLOOP  shift, and go to state 128
+
+
+State 106
+
+   29 statement5: FOREACH IDENTIFIER IN . IDENTIFIER BEGINLOOP state2help1 ENDLOOP
+
+    IDENTIFIER  shift, and go to state 129
+
+
+State 107
+
+   31 state6help: COMMA . var state6help
+
+    IDENTIFIER  shift, and go to state 37
+
+    var  go to state 130
+
+
+State 108
+
+   30 statement6: READ var state6help .
+
+    $default  reduce using rule 30 (statement6)
+
+
+State 109
+
+   33 statement7: WRITE var state6help .
+
+    $default  reduce using rule 33 (statement7)
+
+
+State 110
+
+   71 varTerm: LPAREN expression . RPAREN
+
+    RPAREN  shift, and go to state 115
+
+
+State 111
+
+   73 var: IDENTIFIER LSQUARE expression . RSQUARE
+
+    RSQUARE  shift, and go to state 131
+
+
+State 112
+
+   23 state2help1: statement SEMICOLON state2help1 .
+
+    $default  reduce using rule 23 (state2help1)
+
+
+State 113
+
+   21 statement1: var ASSIGN expression .
+
+    $default  reduce using rule 21 (statement1)
+
+
+State 114
+
+   47 relationExprHelper: LPAREN bool_exp RPAREN .
+
+    $default  reduce using rule 47 (relationExprHelper)
+
+
+State 115
+
+   71 varTerm: LPAREN expression RPAREN .
+
+    $default  reduce using rule 71 (varTerm)
+
+
+State 116
+
+   67 identifierHelp: expression . COMMA identifierHelp
+   68               | expression .
+
+    COMMA  shift, and go to state 132
+
+    $default  reduce using rule 68 (identifierHelp)
+
+
+State 117
+
+   66 identifierTerm: IDENTIFIER LPAREN identifierHelp . RPAREN
+
+    RPAREN  shift, and go to state 133
+
+
+State 118
+
+   22 statement2: IF bool_exp THEN state2help1 . state2help2 ENDIF
+
+    ELSE  shift, and go to state 134
+
+    $default  reduce using rule 26 (state2help2)
+
+    state2help2  go to state 135
+
+
+State 119
+
+   37 orHelper: OR relation_and_expr . orHelper
+
+    OR  shift, and go to state 86
+
+    $default  reduce using rule 38 (orHelper)
+
+    orHelper  go to state 136
+
+
+State 120
+
+   40 andHelper: AND relationexpr . andHelper
+
+    AND  shift, and go to state 88
+
+    $default  reduce using rule 41 (andHelper)
+
+    andHelper  go to state 137
+
+
+State 121
+
+   44 relationExprHelper: expression comp expression .
+
+    $default  reduce using rule 44 (relationExprHelper)
+
+
+State 122
+
+   55 multExprHelper: ADD multiplicative_expr . multExprHelper
+
+    ADD  shift, and go to state 97
+    SUB  shift, and go to state 98
+
+    $default  reduce using rule 57 (multExprHelper)
+
+    multExprHelper  go to state 138
+
+
+State 123
+
+   56 multExprHelper: SUB multiplicative_expr . multExprHelper
+
+    ADD  shift, and go to state 97
+    SUB  shift, and go to state 98
+
+    $default  reduce using rule 57 (multExprHelper)
+
+    multExprHelper  go to state 139
+
+
+State 124
+
+   59 termHelper: MULT term . termHelper
+
+    MULT  shift, and go to state 100
+    DIV   shift, and go to state 101
+    MOD   shift, and go to state 102
+
+    $default  reduce using rule 62 (termHelper)
+
+    termHelper  go to state 140
+
+
+State 125
+
+   60 termHelper: DIV term . termHelper
+
+    MULT  shift, and go to state 100
+    DIV   shift, and go to state 101
+    MOD   shift, and go to state 102
+
+    $default  reduce using rule 62 (termHelper)
+
+    termHelper  go to state 141
+
+
+State 126
+
+   61 termHelper: MOD term . termHelper
+
+    MULT  shift, and go to state 100
+    DIV   shift, and go to state 101
+    MOD   shift, and go to state 102
+
+    $default  reduce using rule 62 (termHelper)
+
+    termHelper  go to state 142
+
+
+State 127
+
+   27 statement3: WHILE bool_exp BEGINLOOP state2help1 . ENDLOOP
+
+    ENDLOOP  shift, and go to state 143
+
+
+State 128
+
+   28 statement4: DO BEGINLOOP state2help1 ENDLOOP . WHILE bool_exp
+
+    WHILE  shift, and go to state 144
+
+
+State 129
+
+   29 statement5: FOREACH IDENTIFIER IN IDENTIFIER . BEGINLOOP state2help1 ENDLOOP
+
+    BEGINLOOP  shift, and go to state 145
+
+
+State 130
+
+   31 state6help: COMMA var . state6help
+
+    COMMA  shift, and go to state 107
+
+    $default  reduce using rule 32 (state6help)
+
+    state6help  go to state 146
+
+
+State 131
+
+   73 var: IDENTIFIER LSQUARE expression RSQUARE .
+
+    $default  reduce using rule 73 (var)
+
+
+State 132
+
+   67 identifierHelp: expression COMMA . identifierHelp
+
+    LPAREN      shift, and go to state 73
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+
+    expression           go to state 116
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    identifierHelp       go to state 147
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 133
+
+   66 identifierTerm: IDENTIFIER LPAREN identifierHelp RPAREN .
+
+    $default  reduce using rule 66 (identifierTerm)
+
+
+State 134
+
+   25 state2help2: ELSE . state2help1
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 148
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 135
+
+   22 statement2: IF bool_exp THEN state2help1 state2help2 . ENDIF
+
+    ENDIF  shift, and go to state 149
+
+
+State 136
+
+   37 orHelper: OR relation_and_expr orHelper .
+
+    $default  reduce using rule 37 (orHelper)
+
+
+State 137
+
+   40 andHelper: AND relationexpr andHelper .
+
+    $default  reduce using rule 40 (andHelper)
+
+
+State 138
+
+   55 multExprHelper: ADD multiplicative_expr multExprHelper .
+
+    $default  reduce using rule 55 (multExprHelper)
+
+
+State 139
+
+   56 multExprHelper: SUB multiplicative_expr multExprHelper .
+
+    $default  reduce using rule 56 (multExprHelper)
+
+
+State 140
+
+   59 termHelper: MULT term termHelper .
+
+    $default  reduce using rule 59 (termHelper)
+
+
+State 141
+
+   60 termHelper: DIV term termHelper .
+
+    $default  reduce using rule 60 (termHelper)
+
+
+State 142
+
+   61 termHelper: MOD term termHelper .
+
+    $default  reduce using rule 61 (termHelper)
+
+
+State 143
+
+   27 statement3: WHILE bool_exp BEGINLOOP state2help1 ENDLOOP .
+
+    $default  reduce using rule 27 (statement3)
+
+
+State 144
+
+   28 statement4: DO BEGINLOOP state2help1 ENDLOOP WHILE . bool_exp
+
+    TRUE        shift, and go to state 51
+    FALSE       shift, and go to state 52
+    LPAREN      shift, and go to state 53
+    NUMBER      shift, and go to state 54
+    IDENTIFIER  shift, and go to state 55
+    SUB         shift, and go to state 56
+    NOT         shift, and go to state 57
+
+    bool_exp             go to state 150
+    relation_and_expr    go to state 59
+    relationexpr         go to state 60
+    relationExprHelper   go to state 61
+    expression           go to state 62
+    multiplicative_expr  go to state 63
+    term                 go to state 64
+    identifierTerm       go to state 65
+    varTerm              go to state 66
+    var                  go to state 67
+
+
+State 145
+
+   29 statement5: FOREACH IDENTIFIER IN IDENTIFIER BEGINLOOP . state2help1 ENDLOOP
+
+    IF          shift, and go to state 29
+    WHILE       shift, and go to state 30
+    DO          shift, and go to state 31
+    FOREACH     shift, and go to state 32
+    CONTINUE    shift, and go to state 33
+    READ        shift, and go to state 34
+    WRITE       shift, and go to state 35
+    RETURN      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+
+    statement    go to state 38
+    statement1   go to state 39
+    statement2   go to state 40
+    state2help1  go to state 151
+    statement3   go to state 42
+    statement4   go to state 43
+    statement5   go to state 44
+    statement6   go to state 45
+    statement7   go to state 46
+    statement8   go to state 47
+    statement9   go to state 48
+    var          go to state 49
+
+
+State 146
+
+   31 state6help: COMMA var state6help .
+
+    $default  reduce using rule 31 (state6help)
+
+
+State 147
+
+   67 identifierHelp: expression COMMA identifierHelp .
+
+    $default  reduce using rule 67 (identifierHelp)
+
+
+State 148
+
+   25 state2help2: ELSE state2help1 .
+
+    $default  reduce using rule 25 (state2help2)
+
+
+State 149
+
+   22 statement2: IF bool_exp THEN state2help1 state2help2 ENDIF .
+
+    $default  reduce using rule 22 (statement2)
+
+
+State 150
+
+   28 statement4: DO BEGINLOOP state2help1 ENDLOOP WHILE bool_exp .
+
+    $default  reduce using rule 28 (statement4)
+
+
+State 151
+
+   29 statement5: FOREACH IDENTIFIER IN IDENTIFIER BEGINLOOP state2help1 . ENDLOOP
+
+    ENDLOOP  shift, and go to state 152
+
+
+State 152
+
+   29 statement5: FOREACH IDENTIFIER IN IDENTIFIER BEGINLOOP state2help1 ENDLOOP .
+
+    $default  reduce using rule 29 (statement5)
