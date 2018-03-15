@@ -1,0 +1,50 @@
+func fibonacci
+= _k[COMES FROM dec1 IDENT], $0
+. _k[COMES FROM dec1 IDENT]
+. _tmp_0
+. _tmp_1
+. _tmp_2
+. _tmp_3
+. _tmp_4
+. _tmp_5
+. _tmp_6
+. _tmp_7
+. _tmp_8
+. _tmp_9
+. _tmp_10
+. _tmp_11
+. _tmp_12
+= _tmp_0, _k [comes from var IDENTIFIER]
+= _tmp_1, 1
+<= _tmp_2, _tmp_0, _tmp_1
+?:= if_condition_true__lbl_3 [MADE in if_statement], _tmp_2
+:= if_condition_false__lbl_3 [MADE in if_statement]
+: if_condition_true__lbl_3 [MADE in if_statement]
+= _tmp_3, 1
+ret _tmp_3
+: if_condition_false__lbl_3 [MADE in if_statement] [comes from statement2_if_]
+= _tmp_4, _k [comes from var IDENTIFIER]
+= _tmp_5, 1
+- _tmp_6, _tmp_4, _tmp_5
+call fibonacci, _tmp_7 [gen from identifierTerm IENT LPAREN]
+param _tmp_6
+= _tmp_8, _k [comes from var IDENTIFIER]
+= _tmp_9, 2
+- _tmp_10, _tmp_8, _tmp_9
+call fibonacci, _tmp_11 [gen from identifierTerm IENT LPAREN]
+param _tmp_10
++ _tmp_12, _tmp_7, _tmp_11
+ret _tmp_12
+endfunc
+func main
+. _n[COMES FROM dec1 IDENT]
+. _fib_n[COMES FROM dec1 IDENT]
+. _tmp_13
+. _tmp_14
+= _tmp_13, _n [comes from var IDENTIFIER]
+call fibonacci, _tmp_14 [gen from identifierTerm IENT LPAREN]
+param _tmp_13
+= _fib_n, _tmp_14[COMES FROM statement1_ident_assign]
+.> _n [comes from var IDENTIFIER][FROM WRITE]
+.> _fib_n [comes from var IDENTIFIER][FROM WRITE]
+endfunc
