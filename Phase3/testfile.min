@@ -1,0 +1,32 @@
+function fibonacci;
+beginparams
+	k : integer;
+	k : integer;                                             #double declaration
+	a : array[0] of integer;                                 #declare array of size <=0
+	b : array[1] of integer;
+	comma : integer;                                         #use of keyword
+endparams
+beginlocals
+endlocals
+beginbody
+    continue;                                                #used continue outside of loop
+	if (k <= 1) then return 1; endif;
+	b := k;                                                  #array used as int
+	k[2] := b[0];                                            #int used as array
+	return fibonacci(k - 1) + fibonacci(k - 2);
+endbody
+
+function poop;                                               #no main function
+beginparams
+endparams
+beginlocals
+	n : integer;
+	fib_n : integer;
+endlocals
+beginbody
+	read n;
+	read JDSLKFA;                                            #used undeclared variable
+	fib_n := fibonacci(n);
+	write fib_n;
+	fib_n := dog(n);                                         #function not declared
+endbody
