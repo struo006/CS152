@@ -40,14 +40,15 @@ stack <string> read_stack;
 //functions
 string genTmpVar();
 string genLblVar();
+bool unDeclaredVariable(string);
 bool wasDeclared(string);
 bool mainExists(vector<string>);
 bool arrSizeZero(int);
 bool functionNotDeclared(string);
 bool usingReservedKeyword(string, vector<string>);
 bool isArrayUsedAsNotArray(string);
-bool continueLoop();
 bool isNotArrayUsedAsArray(string);
+bool usedContinueOutsideOfLoop(vector <vector <string> >);
 
 %}
 
@@ -253,6 +254,12 @@ statement1:	IDENTIFIER ASSIGN expression
 				string temp = "_" + *($1);
 				string identifier_statement = "= " + temp + ", " + operands.at(operands.size() - 1);
 				if(isArrayUsedAsNotArray(temp))
+				{
+					error = true;
+	            	out_stream.open("test1.mil", ofstream::trunc);
+	            	out_stream.close();					
+				}
+				if(unDeclaredVariable(temp))
 				{
 					error = true;
 	            	out_stream.open("test1.mil", ofstream::trunc);
@@ -511,8 +518,13 @@ forexpr: IDENTIFIER IN IDENTIFIER
 statement6:	READ IDENTIFIER read_variables 
 			{
 				string temp = "_" + *($2);
-				temp = temp;
 				string temp_statement = ".< " + temp;
+				if(unDeclaredVariable(temp))
+				{
+					error = true;
+	            	out_stream.open("test1.mil", ofstream::trunc);
+	            	out_stream.close();						
+				}
 				read_stack.push(temp_statement);
 				while(read_stack.size() != 0)
 				{
@@ -548,6 +560,12 @@ read_variables:	COMMA IDENTIFIER read_variables
 			{
 				string temp = "_" + *($2);
 				string read_statement = ".< " + temp;
+				if(unDeclaredVariable(temp))
+				{
+					error = true;
+	            	out_stream.open("test1.mil", ofstream::trunc);
+	            	out_stream.close();						
+				}
 				read_stack.push(read_statement);
 			}
 		|	COMMA IDENTIFIER LSQUARE expression RSQUARE read_variables
@@ -587,6 +605,12 @@ statement7:	WRITE varTerm state6help  // probably use var is okay, but varterm i
 
 statement8:	CONTINUE 
 			{
+				if(usedContinueOutsideOfLoop(loop_label_vector))
+				{
+					error = true;
+	            	out_stream.open("test1.mil", ofstream::trunc);
+	            	out_stream.close();					
+				}
 				if(loop_label_vector.size() != 0) 
 				{
 					if(loop_label_vector.back().at(0) == "d")
@@ -1194,6 +1218,12 @@ varTerm: 	var
 var:		IDENTIFIER 
 			{
 				string temp = "_" + *($1);
+				if(unDeclaredVariable(temp))
+				{
+					error = true;
+	            	out_stream.open("test1.mil", ofstream::trunc);
+	            	out_stream.close();						
+				}
 				operands.push_back(temp);
 			}
 		|	IDENTIFIER LSQUARE expression RSQUARE 
@@ -1238,6 +1268,26 @@ string genLblVar(){
 	string temp = "_lbl_"+ ss.str();
 	++lblcount;
 	return temp;
+}
+
+bool unDeclaredVariable(string var)
+{
+	extern int row;
+	bool undeclared = true;
+	for(unsigned int i = 0; i < identifier_vector.size(); ++i)
+	{
+		cout << identifier_vector.at(i) << " ";
+		if(identifier_vector.at(i) == var)
+		{
+			undeclared = false;
+		}
+	}
+	if(undeclared)
+	{
+		cerr << "Semantic error: undeclared variable \"" << var << "\" on line " << row << endl;
+		return true;
+	}
+	return false;
 }
 
 bool wasDeclared(string var)
@@ -1325,6 +1375,17 @@ bool isNotArrayUsedAsArray(string var)
 				return true;
 			}
 		}
+	}
+	return false;
+}
+
+bool usedContinueOutsideOfLoop(vector<vector <string> > label_loop)
+{
+	extern int row;
+	if(label_loop.size() == 0)
+	{
+		cerr << "Semantic error: used continue outside of loop on line " << row << endl;
+		return true;
 	}
 	return false;
 }
