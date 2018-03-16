@@ -125,6 +125,18 @@ dec:		declaration SEMICOLON dec
 declaration:	dec1 COLON dec2 
 				{
 					int num_param = 0;
+					for(int i=0; i < identifier_vector.size(); i++)
+					{
+						// identifier_type_vector.at(i) = INTEGER if int or N from [N] if array
+						if(identifier_type_vector.at(i) == "INTEGER"){
+							cout<<". " << identifier_vector.at(i) << endl;
+						}
+						else{	// would be an array
+							cout<<".[] "<< identifier_vector.at(i)<< ", " << identifier_type_vector.at(i) <<endl;
+							}
+					}
+					identifier_vector.clear();
+					identifier_type_vector.clear();
 					while(!param_vector.empty())
 					{
 						string paramVecFront = param_vector.front();
@@ -149,13 +161,13 @@ dec1: 	IDENTIFIER COMMA dec1
 				string int_type = "INTEGER";
 				identifier_vector.push_back(temp);
 				identifier_type_vector.push_back(int_type);
-				cout << ". " << temp << endl;
+			//	cout << ". " << temp << endl;
 			}
 		| IDENTIFIER 
 			{
 				string temp = "_" + *($1) + "[COMES FROM dec1 IDENT]";
 				identifier_vector.push_back(temp);
-				cout << ". " << temp << endl;
+				//	cout << ". " << temp << endl;
 				if(param_open){
 					param_vector.push_back(temp);
 				}
@@ -167,7 +179,7 @@ dec2:	ARRAY LSQUARE NUMBER RSQUARE OF INTEGER
 				stringstream num;
 				num << $3;
 				identifier_type_vector.push_back(num.str());
-				cout << ".[] " << identifier_vector.at(identifier_vector.size() - 1) << ", " << num.str()  << "[comes from dec2 ARRAY]" << endl;
+			//	cout << ".[] " << identifier_vector.at(identifier_vector.size() - 1) << ", " << num.str()  << "[comes from dec2 ARRAY]" << endl;
 			}
 		| INTEGER
 			{
@@ -203,7 +215,7 @@ statement1:	IDENTIFIER ASSIGN expression
 				operands.pop_back();
 				string array_index = operands.at(operands.size() - 1);
 				operands.pop_back();
-				string array_statement = "[]=" + array_name + ", " + array_index + ", " + array_source + " [COMES FROM statement1_ident_lsquare_exp]";
+				string array_statement = "[]= " + array_name + ", " + array_index + ", " + array_source + " [COMES FROM statement1_ident_lsquare_exp]";
 				statement_vector.push_back(array_statement);
 				cout << array_statement << endl;
 			}
