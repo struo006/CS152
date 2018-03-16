@@ -1276,7 +1276,6 @@ bool unDeclaredVariable(string var)
 	bool undeclared = true;
 	for(unsigned int i = 0; i < identifier_vector.size(); ++i)
 	{
-		cout << identifier_vector.at(i) << " ";
 		if(identifier_vector.at(i) == var)
 		{
 			undeclared = false;
@@ -1284,7 +1283,7 @@ bool unDeclaredVariable(string var)
 	}
 	if(undeclared)
 	{
-		cerr << "Semantic error: undeclared variable \"" << var << "\" on line " << row << endl;
+		cerr << "Semantic error: undeclared variable \"" << var << "\" was used on line " << row << endl;
 		return true;
 	}
 	return false;

@@ -10,5 +10,7 @@
 #include <sstream>
 #include <vector>
 #include <stack>
+#include <fstream>
+#include <algorithm>
 
 using namespace std;
