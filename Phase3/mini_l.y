@@ -9,7 +9,7 @@ int lblcount = 0;
 int paramVal = 0;
 ofstream out_stream;
 
-const char* tok[] = {"chicken","function","beginparams","endparams","beginlocals","endlocals","beginbody","integer","array",
+const char* tok[] = {"function","beginparams","endparams","beginlocals","endlocals","beginbody","integer","array",
 						"of","if","then","endif","else","while","do","foreach","in","beginloop","endloop","continue",
 						"read","write","true","false","semicolon","colon","comma","lparen","rparen","lsquare","rsquare",
 						"assign","return"};
@@ -35,6 +35,8 @@ vector <vector <string> > for_loop_label_vector;
 
 stack <string> param_stack;
 stack <string> read_stack;
+
+// map<string,int> for_map;
 
 
 //functions
@@ -157,7 +159,7 @@ dec:		declaration SEMICOLON dec
 declaration:	dec1 COLON dec2 
 				{
 					int num_param = 0;
-					for(int i=0; i < identifier_vector.size(); i++)
+					for(unsigned int i=0; i < identifier_vector.size(); i++)
 					{
 						// identifier_type_vector.at(i) = INTEGER if int or N from [N] if array
 						if(identifier_type_vector.at(i) == "INTEGER"){
@@ -189,7 +191,6 @@ dec1: 	IDENTIFIER COMMA dec1
 	            	out_stream.open("test1.mil", ofstream::trunc);
 	            	out_stream.close();					
 				}
-				// ~~~~~~~~~ CHECK DIS ~~~~~~~~~~ //
 				if(usingReservedKeyword(*($1), tokens)){
 					error = true;
 					out_stream.open("test1.mil", ofstream::trunc);
@@ -227,6 +228,8 @@ dec2:	ARRAY LSQUARE NUMBER RSQUARE OF INTEGER
 				int temps = ($3);
 				if(arrSizeZero(temps)){
 					error = true;
+					out_stream.open("test1.mil", ofstream::trunc);
+	            	out_stream.close();	
 				}
 				string tempSpace = num.str();
 				identifier_type_vector.push_back(num.str());
@@ -292,7 +295,7 @@ statement1:	IDENTIFIER ASSIGN expression
 
 statement2:	if_statement state2help1 ENDIF 
 			{
-				string if_end = ": " + if_label_vector.back().at(1);
+				string if_end = ": " + if_label_vector.at(if_label_vector.size()-1).at(1);
 				statement_vector.push_back(if_end);
 				cout << if_end << endl;
 				out_stream << if_end << endl;
@@ -300,7 +303,7 @@ statement2:	if_statement state2help1 ENDIF
 			}
 		|	else_if_statement state2help1 ENDIF
 			{
-				string if_end = ": " + if_label_vector.back().at(2);
+				string if_end = ": " + if_label_vector.at(if_label_vector.size()-1).at(2);
 				statement_vector.push_back(if_end);
 				cout << if_end << endl;
 				out_stream << if_end << endl;
@@ -314,12 +317,12 @@ state2help1:	statement SEMICOLON state2help1
 		
 else_if_statement:	if_statement state2help1 ELSE
 					{
-						string end_if_statement = ":= " + if_label_vector.back().at(2);
+						string end_if_statement = ":= " + if_label_vector.at(if_label_vector.size()-1).at(2);
 						statement_vector.push_back(end_if_statement);
 						cout << end_if_statement << endl;
 						out_stream << end_if_statement << endl;
 						
-						string else_if_declare_statement = ": " + if_label_vector.back().at(1);
+						string else_if_declare_statement = ": " + if_label_vector.at(if_label_vector.size()-1).at(1);
 						statement_vector.push_back(else_if_declare_statement);
 						cout << else_if_declare_statement << endl;
 						out_stream << else_if_declare_statement << endl;
@@ -362,8 +365,8 @@ if_statement:	IF bool_exp THEN
 
 statement3:	while_start state2help1 ENDLOOP 
 			{
-				string while_loop_label = ":= " + loop_label_vector.back().at(0);
-				string while_loop_end = ": " + loop_label_vector.back().at(2);
+				string while_loop_label = ":= " + loop_label_vector.at(loop_label_vector.size()-1).at(0);
+				string while_loop_end = ": " + loop_label_vector.at(loop_label_vector.size()-1).at(2);
 				statement_vector.push_back(while_loop_label);
 				cout << while_loop_label << endl;
 				out_stream << while_loop_label << endl;
@@ -376,10 +379,10 @@ statement3:	while_start state2help1 ENDLOOP
 
 while_start: while_statement bool_exp BEGINLOOP
 			{
-				string while_in = "?:= " + loop_label_vector.back().at(1) + ", " +  operands.at(operands.size() - 1);
+				string while_in = "?:= " + loop_label_vector.at(loop_label_vector.size()-1).at(1) + ", " +  operands.at(operands.size() - 1);
 				operands.pop_back();
-				string while_end = ":= " + loop_label_vector.back().at(2);
-				string while_start = ": " + loop_label_vector.back().at(1);
+				string while_end = ":= " + loop_label_vector.at(loop_label_vector.size()-1).at(2);
+				string while_start = ": " + loop_label_vector.at(loop_label_vector.size()-1).at(1);
 	
 				statement_vector.push_back(while_in);
 				statement_vector.push_back(while_end);
@@ -417,7 +420,7 @@ while_statement: WHILE
 
 statement4: do_check WHILE bool_exp 
 			{
-				string do_while_done = "?:= " + loop_label_vector.back().at(0) + ", " + operands.at(operands.size() - 1);
+				string do_while_done = "?:= " + loop_label_vector.at(loop_label_vector.size()-1).at(0) + ", " + operands.at(operands.size() - 1);
 				cout << do_while_done << endl;
 				out_stream << do_while_done << endl;
 				statement_vector.push_back(do_while_done);
@@ -429,7 +432,7 @@ statement4: do_check WHILE bool_exp
 		
 do_check:	do_while state2help1 ENDLOOP
 			{
-				string do_while_cond_check = ": " + loop_label_vector.back().at(1); 
+				string do_while_cond_check = ": " + loop_label_vector.at(loop_label_vector.size()-1).at(1); 
 				statement_vector.push_back(do_while_cond_check);
 				cout << do_while_cond_check << endl;
 				out_stream << do_while_cond_check << endl;
@@ -457,63 +460,97 @@ do_while:	DO BEGINLOOP
 			}
 	;
 
+// Foreach foreach Label identifier in help beginbody state endloop
+
+
+// help identifier
+// 		{
+// 			string iden = 
+			
+// 		}
+
+// statement5: FOREACH IDENTIFIER IN IDENTIFIER BEGINLOOP state2help1 ENDLOOP
+
 statement5: foreachstart state2help1 ENDLOOP
 			{
-				string foreach_loop_label = ":= " + for_loop_label_vector.back().at(0);
-				string foreach_loop_end = ": " + for_loop_label_vector.back().at(2);
+				// string foreach_loop_label = ":= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(0);
+				// string foreach_loop_end = ": " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(2);
 				
-				statement_vector.push_back(foreach_loop_label);
-				cout << foreach_loop_label << endl;
-				out_stream << foreach_loop_label << endl;
-				statement_vector.push_back(foreach_loop_end);
-				cout << foreach_loop_end << endl;
-				out_stream << foreach_loop_end << endl;
+				// statement_vector.push_back(foreach_loop_label);
+				// //cout << foreach_loop_label << endl;
+				// out_stream << foreach_loop_label << endl;
+				// statement_vector.push_back(foreach_loop_end);
+				// //cout << foreach_loop_end << endl;
+				// out_stream << foreach_loop_end << endl;
 			}
 		;
 
 // ~~~~~~~~~~~~ NOT DONE ~~~~~~~~~~~~~~~~ //
 foreachstart: foreachstatement forexpr BEGINLOOP //IDENTIFIER IN IDENTIFIER BEGINLOOP
 			{
-				string foreach_in = "?:= " + for_loop_label_vector.back().at(1) + ", " +  operands.at(operands.size() - 1);
-				operands.pop_back();
-				string foreach_end = ":= " + for_loop_label_vector.back().at(2);
-				string foreach_start = ": " + for_loop_label_vector.back().at(1);
+				// string foreach_in = "?:= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(1) + ", " +  operands.at(operands.size() - 1);
+				// operands.pop_back();
+				// string foreach_end = ":= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(2);
+				// string foreach_start = ": " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(1);
 	
-				statement_vector.push_back(foreach_in);
-				statement_vector.push_back(foreach_end);
-				statement_vector.push_back(foreach_start);
-				cout << foreach_in << endl;
-				out_stream << foreach_in << endl;
-				cout << foreach_end << endl;
-				out_stream << foreach_end << endl;
-				cout << foreach_start << endl;
-				out_stream << foreach_start << endl;
-			}
-		;
-		
-foreachstatement: FOREACH
-			{
-				string temp = genLblVar();
-				temp = temp;
-	            string foreach_loop = "foreach_loop" + temp;
-	            string cond_true = "conditional_true" + temp;
-	            string cond_false = "conditional_false" + temp; 
-	            
-	            vector<string> foreach_statements;
-	            foreach_statements.push_back(foreach_loop);
-	            foreach_statements.push_back(cond_true);
-	            foreach_statements.push_back(cond_false);
-	            
-	            
-	            for_loop_label_vector.push_back(foreach_statements);
-	            string foreach_declare = ": " + foreach_loop;
-	            statement_vector.push_back(foreach_declare);
-	            cout << foreach_declare << endl;
-	            out_stream << foreach_declare << endl;
+				// statement_vector.push_back(foreach_in);
+				// statement_vector.push_back(foreach_end);
+				// statement_vector.push_back(foreach_start);
+				// //cout << foreach_in << endl;
+				// out_stream << foreach_in << endl;
+				// //cout << foreach_end << endl;
+				// out_stream << foreach_end << endl;
+				// //cout << foreach_start << endl;
+				// out_stream << foreach_start << endl;
 			}
 		;
 
-forexpr: IDENTIFIER IN IDENTIFIER
+forexpr: IDENTIFIER IN IDENTIFIER forexpr
+			{
+				// for(int i)
+				
+				// string temp = for_loop_label_vector.at(for_loop_label_vector.size()-1).at(0).substr(11);
+				
+				// int iden1 = for_map.find(*($1))->second;
+				// int iden2 = 10;//($3);
+				
+				// if(iden1 < iden2){
+				// 	string cond_true = "conditional_true" + temp;
+				// 	string cond_print = ": " + cond_true;
+				// 	statement_vector.push_back(cond_print);
+				// 	out_stream << cond_print << endl;
+				// }
+				// else{
+				// 	string cond_false = "conditional_false" + temp;
+				// 	string cond_print = ": " + cond_false;
+				// 	statement_vector.push_back(cond_print);
+				// 	out_stream << cond_print << endl;
+				// }
+			}
+		|
+		
+foreachstatement: FOREACH
+			{
+				// string temp = genLblVar();
+				// temp = temp;
+	   //         string foreach_loop = "foreach_loop" + temp;
+	   //         // string cond_true = "conditional_true" + temp;
+	   //         // string cond_false = "conditional_false" + temp; 
+	            
+	   //         vector<string> foreach_statements;
+	   //         foreach_statements.push_back(foreach_loop);
+	   //         // foreach_statements.push_back(cond_true);
+	   //         // foreach_statements.push_back(cond_false);
+	            
+	            
+	   //         for_loop_label_vector.push_back(foreach_statements);
+	   //         string foreach_declare = ": " + foreach_loop;
+	   //         statement_vector.push_back(foreach_declare);
+	   //         //cout << foreach_declare << endl;
+	   //         out_stream << foreach_declare << endl;
+			}
+		;
+
 		
 statement6:	READ IDENTIFIER read_variables 
 			{
@@ -613,16 +650,16 @@ statement8:	CONTINUE
 				}
 				if(loop_label_vector.size() != 0) 
 				{
-					if(loop_label_vector.back().at(0) == "d")
+					if(loop_label_vector.at(loop_label_vector.size()-1).at(0) == "d")
 					{
-						string continue_statement = ":= " + loop_label_vector.back().at(0);
+						string continue_statement = ":= " + loop_label_vector.at(loop_label_vector.size()-1).at(0);
 						statement_vector.push_back(continue_statement);
 						cout << continue_statement << endl;
 						out_stream << continue_statement << endl;
 					}
 					else
 					{
-						string not_continue_statement = ":= " + loop_label_vector.back().at(1);
+						string not_continue_statement = ":= " + loop_label_vector.at(loop_label_vector.size()-1).at(1);
 						statement_vector.push_back(not_continue_statement);
 						cout << not_continue_statement << endl;
 						out_stream << not_continue_statement << endl;
@@ -764,7 +801,7 @@ relationexpr:	relationExprHelper
 				identifier_type_vector.push_back("INTEGER");
 				cout << ". " << temp << endl;
 				out_stream << ". " << temp << endl;
-				string operand1 = operands.back();
+				string operand1 = operands.at(operands.size()-1);
 				operands.pop_back();
 				string not_statement = "! " + temp + ", " + operand1;
 				statement_vector.push_back(not_statement);
@@ -1178,6 +1215,11 @@ varTerm: 	var
 				}
 				else {	// has to be an integer
 					string push_item = "= " + temp + ", " + operand1;
+					
+					// int getint = for_map.find(operand1)->second;
+					
+					// for_map.insert(pair<char,int>(temp,getint));
+					
 					statement_vector.push_back(push_item);
 					cout << push_item << endl;
 					out_stream << push_item << endl;
@@ -1197,6 +1239,9 @@ varTerm: 	var
 				stringstream num;
 				num << $1;
 				string push_item = "= " + temp + ", " + num.str();
+				
+				// for_map.insert(pair<char,int>(temp,$1));
+				
 				statement_vector.push_back(push_item);
 				cout << push_item << endl;
 				out_stream << push_item << endl;
