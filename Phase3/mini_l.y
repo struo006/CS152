@@ -112,33 +112,6 @@ endparam:	ENDPARAMS
 
 function:	function_help SEMICOLON beginparam dec endparam BEGINLOCALS dec ENDLOCALS BEGINBODY state2help1 ENDBODY
 			{
-				// 	int num_param = 0;
-				// 	for(int i=0; i < identifier_vector.size(); i++)
-				// 	{
-				// 		// identifier_type_vector.at(i) = INTEGER if int or N from [N] if array
-				// 		if(identifier_type_vector.at(i) == "INTEGER"){
-				// 			cout<<". " << identifier_vector.at(i) << endl;
-				// 			out_stream<<". " << identifier_vector.at(i) << endl;
-				// 		}
-				// 		else{	// would be an array
-				// 			cout <<".[] "<< identifier_vector.at(i)<< ", " << identifier_type_vector.at(i) <<endl;
-				// 			out_stream <<".[] "<< identifier_vector.at(i)<< ", " << identifier_type_vector.at(i) <<endl;
-				// 		}
-				// 	}
-				// 	identifier_vector.clear();
-				// 	identifier_type_vector.clear();
-				// 	while(!param_vector.empty())
-				// 	{
-				// 		string paramVecFront = param_vector.front();
-				// 		cout << "= " << paramVecFront<< ", $" << num_param << endl;
-				// 		out_stream<< "= " << paramVecFront<< ", $" << num_param << endl;
-				// 		param_vector.erase(param_vector.begin());
-				// 		num_param++;
-				// 	} 
-				// for(int i=0;i<statement_vector.size();i++)
-				// {
-    //             	cout<<statement_vector.at(i)<<endl;
-				// }
 	            cout << "endfunc" << endl;
 	            out_stream << "endfunc" << endl;
 				identifier_vector.clear();
@@ -460,48 +433,37 @@ do_while:	DO BEGINLOOP
 			}
 	;
 
-// Foreach foreach Label identifier in help beginbody state endloop
-
-
-// help identifier
-// 		{
-// 			string iden = 
-			
-// 		}
-
-// statement5: FOREACH IDENTIFIER IN IDENTIFIER BEGINLOOP state2help1 ENDLOOP
-
+// ~~~~~~~ COULDNT FINISH ~~~~~~~ //
 statement5: foreachstart state2help1 ENDLOOP
 			{
-				// string foreach_loop_label = ":= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(0);
-				// string foreach_loop_end = ": " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(2);
+				string foreach_loop_label = ":= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(0);
+				string foreach_loop_end = ": " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(2);
 				
-				// statement_vector.push_back(foreach_loop_label);
-				// //cout << foreach_loop_label << endl;
-				// out_stream << foreach_loop_label << endl;
-				// statement_vector.push_back(foreach_loop_end);
-				// //cout << foreach_loop_end << endl;
-				// out_stream << foreach_loop_end << endl;
+				statement_vector.push_back(foreach_loop_label);
+				//cout << foreach_loop_label << endl;
+				out_stream << foreach_loop_label << endl;
+				statement_vector.push_back(foreach_loop_end);
+				//cout << foreach_loop_end << endl;
+				out_stream << foreach_loop_end << endl;
 			}
 		;
 
-// ~~~~~~~~~~~~ NOT DONE ~~~~~~~~~~~~~~~~ //
 foreachstart: foreachstatement forexpr BEGINLOOP //IDENTIFIER IN IDENTIFIER BEGINLOOP
 			{
-				// string foreach_in = "?:= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(1) + ", " +  operands.at(operands.size() - 1);
-				// operands.pop_back();
-				// string foreach_end = ":= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(2);
-				// string foreach_start = ": " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(1);
+				string foreach_in = "?:= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(1) + ", " +  operands.at(operands.size() - 1);
+				operands.pop_back();
+				string foreach_end = ":= " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(2);
+				string foreach_start = ": " + for_loop_label_vector.at(for_loop_label_vector.size()-1).at(1);
 	
-				// statement_vector.push_back(foreach_in);
-				// statement_vector.push_back(foreach_end);
-				// statement_vector.push_back(foreach_start);
-				// //cout << foreach_in << endl;
-				// out_stream << foreach_in << endl;
-				// //cout << foreach_end << endl;
-				// out_stream << foreach_end << endl;
-				// //cout << foreach_start << endl;
-				// out_stream << foreach_start << endl;
+				statement_vector.push_back(foreach_in);
+				statement_vector.push_back(foreach_end);
+				statement_vector.push_back(foreach_start);
+				//cout << foreach_in << endl;
+				out_stream << foreach_in << endl;
+				//cout << foreach_end << endl;
+				out_stream << foreach_end << endl;
+				//cout << foreach_start << endl;
+				out_stream << foreach_start << endl;
 			}
 		;
 
@@ -533,21 +495,21 @@ foreachstatement: FOREACH
 			{
 				// string temp = genLblVar();
 				// temp = temp;
-	   //         string foreach_loop = "foreach_loop" + temp;
-	   //         // string cond_true = "conditional_true" + temp;
-	   //         // string cond_false = "conditional_false" + temp; 
+				// string foreach_loop = "foreach_loop" + temp;
+				// string cond_true = "conditional_true" + temp;
+				// string cond_false = "conditional_false" + temp; 
 	            
-	   //         vector<string> foreach_statements;
-	   //         foreach_statements.push_back(foreach_loop);
-	   //         // foreach_statements.push_back(cond_true);
-	   //         // foreach_statements.push_back(cond_false);
+				// vector<string> foreach_statements;
+				// foreach_statements.push_back(foreach_loop);
+				// foreach_statements.push_back(cond_true);
+				// foreach_statements.push_back(cond_false);
 	            
 	            
-	   //         for_loop_label_vector.push_back(foreach_statements);
-	   //         string foreach_declare = ": " + foreach_loop;
-	   //         statement_vector.push_back(foreach_declare);
-	   //         //cout << foreach_declare << endl;
-	   //         out_stream << foreach_declare << endl;
+				// for_loop_label_vector.push_back(foreach_statements);
+				// string foreach_declare = ": " + foreach_loop;
+				// statement_vector.push_back(foreach_declare);
+				// cout << foreach_declare << endl;
+				// out_stream << foreach_declare << endl;
 			}
 		;
 
@@ -625,7 +587,7 @@ state6help: COMMA varTerm state6help
 		|
 		;
 
-statement7:	WRITE varTerm state6help  // probably use var is okay, but varterm is recommended
+statement7:	WRITE varTerm state6help 
 			{
 				while(operands.size() != 0) 
 				{
@@ -678,8 +640,9 @@ statement9:	RETURN expression
 			}
 		;
 
-bool_exp: relationHelp
-		| bool_exp OR relationHelp
+bool_exp:	relation_and_expr orHelper {}
+
+orHelper:	OR relation_and_expr orHelper 
 			{
 				string temp = genTmpVar();
 				string type = "INTEGER";
@@ -702,94 +665,39 @@ bool_exp: relationHelp
 				
 				operands.push_back(temp);
 			}
+		| 
+			{}
+		;
 
-relationHelp: relationexpr
-			| relationHelp AND relationexpr
-				{
-					string temp = genTmpVar();
-					string type = "INTEGER";
-					identifier_vector.push_back(temp);
-					identifier_type_vector.push_back(type);
-					
-					cout << ". " << temp << endl;
-					out_stream << ". " << temp << endl;
-					
-					string operand1 = operands.at(operands.size()-1);
-					string operand2 = operands.at(operands.size()-2);
-					
-					
-					string push_item = "&& " + temp + ", " + operand2 + ", " + operand1;
-					
-					statement_vector.push_back(push_item);
-					cout << push_item << endl;
-					out_stream << push_item << endl;
-					
-					operands.pop_back();
-					operands.pop_back();
-					
-					operands.push_back(temp);	
-				}
+relation_and_expr: relationexpr andHelper {};
 
-
-
-// bool_exp:	relation_and_expr orHelper {}
-
-// orHelper:	OR relation_and_expr orHelper 
-// 			{
-// 				string temp = genTmpVar();
-// 				string type = "INTEGER";
-// 				identifier_vector.push_back(temp);
-// 				identifier_type_vector.push_back(type);
-// 				cout << ". " << temp << endl;
-// 				out_stream << ". " << temp << endl;
+andHelper: 	AND relationexpr andHelper
+			{
+				string temp = genTmpVar();
+				string type = "INTEGER";
+				identifier_vector.push_back(temp);
+				identifier_type_vector.push_back(type);
 				
-// 				string operand1 = operands.at(operands.size()-1);
-// 				string operand2 = operands.at(operands.size()-2);
+				cout << ". " << temp << endl;
+				out_stream << ". " << temp << endl;
 				
-// 				string push_item = "|| " + temp + ", " + operand2 + ", " + operand1;
-				
-// 				statement_vector.push_back(push_item);
-// 				cout << push_item << endl;
-// 				out_stream << push_item << endl;
-				
-// 				operands.pop_back();
-// 				operands.pop_back();
-				
-// 				operands.push_back(temp);
-// 			}
-// 		| 
-// 			{}
-// 		;
-
-// relation_and_expr: relationexpr andHelper {};
-
-// andHelper: 	AND relationexpr andHelper
-// 			{
-// 				string temp = genTmpVar();
-// 				string type = "INTEGER";
-// 				identifier_vector.push_back(temp);
-// 				identifier_type_vector.push_back(type);
-				
-// 				cout << ". " << temp << endl;
-// 				out_stream << ". " << temp << endl;
-				
-// 				string operand1 = operands.at(operands.size()-1);
-// 				string operand2 = operands.at(operands.size()-2);
+				string operand1 = operands.at(operands.size()-1);
+				string operand2 = operands.at(operands.size()-2);
 				
 				
-// 				string push_item = "&& " + temp + ", " + operand2 + ", " + operand1;
+				string push_item = "&& " + temp + ", " + operand2 + ", " + operand1;
 				
-// 				statement_vector.push_back(push_item);
-// 				cout << push_item << endl;
-// 				out_stream << push_item << endl;
+				statement_vector.push_back(push_item);
+				cout << push_item << endl;
+				out_stream << push_item << endl;
 				
-// 				operands.pop_back();
-// 				operands.pop_back();
+				operands.pop_back();
+				operands.pop_back();
 				
-// 				operands.push_back(temp);	
-// 			}
-// 		| 
-// 			{};
+				operands.push_back(temp);	
+			}
+		| 
+			{};
 
 
 relationexpr:	relationExprHelper
@@ -1128,13 +1036,9 @@ termHelper:	MULT term termHelper
 		;
 
 term:	identifierTerm 
-			{
-				// ?????????????? think its done
-			}
+			{}
 		| varTerm 
-			{
-				// empty
-			}
+			{}
 		| SUB varTerm
 			{
 				string temp = genTmpVar();
@@ -1216,10 +1120,6 @@ varTerm: 	var
 				else {	// has to be an integer
 					string push_item = "= " + temp + ", " + operand1;
 					
-					// int getint = for_map.find(operand1)->second;
-					
-					// for_map.insert(pair<char,int>(temp,getint));
-					
 					statement_vector.push_back(push_item);
 					cout << push_item << endl;
 					out_stream << push_item << endl;
@@ -1239,8 +1139,6 @@ varTerm: 	var
 				stringstream num;
 				num << $1;
 				string push_item = "= " + temp + ", " + num.str();
-				
-				// for_map.insert(pair<char,int>(temp,$1));
 				
 				statement_vector.push_back(push_item);
 				cout << push_item << endl;
