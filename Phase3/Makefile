@@ -5,7 +5,7 @@ CC	= g++
 CFLAGS	= -g -Wall -ansi -pedantic
 
 mini_l:		$(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o mini_l -lfl
+		$(CC) $(CFLAGS) $(OBJS) -o my_compiler -lfl
 
 lex.o:		lex.c
 		$(CC) $(CFLAGS) -c lex.c -o lex.o
